@@ -5,7 +5,7 @@
 
 ## 2. 数据准备
 
-### 2.1 数据集特征
+### 2.1 数据集特征选取
 | 特征名 | 类型 | 描述 | 取值范围 |
 |--------|------|------|----------|
 | danceability | 连续值 | 舞蹈性 | 0-1 |
@@ -18,40 +18,43 @@
 | tempo | 连续值 | 速度(BPM) | 50-200 |
 
 ### 2.2 缺失值处理
-```python
-# 中位数填充（常规特征）
+
+#### 中位数填充（常规特征）
 features.fillna(features.median(), inplace=True)
 
-# 特殊处理
+#### 特殊处理
 features['instrumentalness'] = features['instrumentalness'].fillna(0)  # 人声为主的歌曲默认0
-3. 聚类分析
-3.1 标准化处理
+
+## 3. 聚类分析
+### 3.1 标准化处理
 采用Z-score标准化：
 
-python
-from sklearn.preprocessing import StandardScaler
-scaler = StandardScaler()
-scaled_features = scaler.fit_transform(features)
-3.2 确定最佳K值
+![image](https://github.com/user-attachments/assets/dd5bad09-3520-4162-9214-242cd0da031b)
+
+### 3.2 确定最佳K值
 肘部法则：观察惯性值拐点
 
 轮廓系数：评估聚类紧密度
-https://elbow_silhouette.png
+最佳k为4
+![image](https://github.com/user-attachments/assets/ffadda74-a9eb-4761-87b4-98be3732f2e6)
 
-3.3 K-Means实现
-python
-kmeans = KMeans(n_clusters=4, random_state=42)
-clusters = kmeans.fit_predict(scaled_features)
-4. 结果分析
-4.1 聚类特征
+### 3.3 K-Means实现
+
+
+
+## 4. 结果分析
+### 4.1 聚类特征
 聚类	主要特征	代表类型
 0	高舞蹈性(0.85)+高能量(0.8)	派对音乐
 1	低乐器度+高人声占比	说唱
 2	高原声度+低响度	民谣
 3	中速节奏+均衡特征	流行
-4.2 可视化
+### 4.2 可视化
 PCA降维图
-https://pca_visualization.png
+![image](https://github.com/user-attachments/assets/8db00059-ee14-44d7-ad9c-68ae61efeb1e)
 
-平行坐标图
-https://parallel_coordinates.png
+聚类分组图
+![image](https://github.com/user-attachments/assets/46783dad-d375-43dc-9e16-043e483090d5)
+
+特征对比图
+![image](https://github.com/user-attachments/assets/1f62d8b6-a3fd-43bf-ade0-7f8b22fe3467)
